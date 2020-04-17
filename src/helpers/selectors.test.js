@@ -1,4 +1,4 @@
-import getAppointmentsForDay, { getInterview } from "helpers/selectors";
+import getAppointmentsForDay, { getInterview, getInterviewersForDay } from "helpers/selectors";
 
 const state = {
   days: [
@@ -14,7 +14,7 @@ const state = {
     }
   ],
   appointments: {
-    "1": { id: 1, time: "12pm", interview: null },
+    "1": { id: 1, time: "12pm", interview: { student: "Richard Cohen", interviewer: 3 } },
     "2": { id: 2, time: "1pm", interview: null },
     "3": {
       id: 3,
@@ -38,6 +38,11 @@ const state = {
       id: 2,
       name: "Tori Malcolm",
       avatar: "https://i.imgur.com/Nmx0Qxo.png"
+    },
+    "3" : {
+      id: 3,
+      name: "Cohana Roy",
+      avatar: "https://i.imgur.com/FK8V841.jpg"
     },
   }
 };
@@ -85,5 +90,33 @@ test("getInterview returns an object with the interviewer data", () => {
 test("getInterview returns null if no interview is booked", () => {
   const result = getInterview(state, state.appointments["2"].interview);
   expect(result).toBeNull();
+});
+
+// Interviewers
+
+// test("getInterviewersForDay returns an array", () => {
+//   const result = getInterviewersForDay(state, "Monday");
+//   expect(Array.isArray(result)).toBe(true);
+// });
+
+// test("getInterviewerssForDay returns an array with a length matching the number of interviewers for that day", () => {
+//   const result = getInterviewersForDay(state, "Monday");
+//   expect(result.length).toEqual(2);
+// });
+
+test("getInterviewersForDay returns an array containing the correct interviewer objects", () => {
+  const [first, second] = getInterviewersForDay(state, "Monday");
+  expect(first).toEqual(state.interviewers["3"]);
+  expect(second).toEqual(state.interviewers["2"]);
+});
+
+test("getInterviewersForDay returns an empty array when the days data is empty", () => {
+  const result = getInterviewersForDay({ days: [] }, "Monday");
+  expect(result.length).toEqual(0);
+});
+
+test("getInterviewersForDay returns an empty array when the day is not found", () => {
+  const result = getInterviewersForDay(state, "Wednesday");
+  expect(result.length).toEqual(0);
 });
 
