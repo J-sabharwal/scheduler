@@ -4,54 +4,8 @@ import axios from "axios";
 import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
+import getAppointmentsForDay, { getInterview} from "../helpers/selectors"
 
-
-const appointments = [
-  {
-    id: 1,
-    time: "12pm",
-  },
-  {
-    id: 2,
-    time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
-  },
-  {
-    id: 3,
-    time: "2pm",
-  },
-  {
-    id: 4,
-    time: "3pm",
-    interview: {
-      student: "Jason Daniels",
-      interviewer: {
-        id: 5,
-        name: "Sven Jones",
-        avatar: "https://i.imgur.com/twYrpay.jpg",
-      }
-    }
-  },
-  {
-    id: 5,
-    time: "4pm",
-    interview: {
-      student: "Penny Wright",
-      interviewer: {
-        id: 3,
-        name: "Mildred Nazir",
-        avatar: "https://i.imgur.com/T2WwVfS.png",
-      }
-    }
-  }
-];
 
 export default function Application(props) {
   const setDay = day => setState({ ...state, day });
@@ -68,27 +22,31 @@ export default function Application(props) {
 
     const daysURL = 'http://localhost:8001/api/days'
     const apptURL = 'http://localhost:8001/api/appointments'
+    const intURL = 'http://localhost:8001/api/interviewers'
     const promiseDay = axios.get(daysURL)
     const promiseAppt = axios.get(apptURL)
-    
-    Promise.all([promiseDay, promiseAppt])
+    const promiseInterviewers = axios.get(intURL)
+
+    Promise.all([promiseDay, promiseAppt, promiseInterviewers])
       .then((all) =>  {
-        console.log({  days: all[0].data, appointnments: all[1].data  })
-        setState(prev => ({...prev, days: all[0].data, appointnments: all[1].data  }));
+        console.log({  days: all[0].data, appointnments: all[1].data, interviewers: all[2].data   })
+        setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data  }));
       })
     }, []);
   
-
-
-  
-  const appointmentSlot =  appointments.map((timeslot, index) => {
+    const appointments = getAppointmentsForDay(state, state.day)
     
-    return (
-    <Appointment 
-      key={timeslot.id} 
-      {...timeslot }
-    />
-    );
+    const appointmentSlot =  appointments.map((timeslot) => {
+      const interview = getInterview(state, timeslot.interview);
+      
+      return (
+      <Appointment 
+        key={timeslot.id} 
+        id={timeslot.id}
+        time={timeslot.time}
+        interview={interview}
+      />
+      );
   });
 
 
