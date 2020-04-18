@@ -24,7 +24,7 @@ console.log(props)
           className="appointment__actions-button"
           src="images/trash.png"
           alt="Delete"
-          onClick={props.onDeleting}
+          onClick={props.onDelete}
         />
       </section>
     </section>

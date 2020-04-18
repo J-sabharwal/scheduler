@@ -5,6 +5,7 @@ import Empty from "./Empty";
 import Form from "./Form";
 import Show from "./Show.js";
 import Saving from "./Saving.js";
+import Confirm from "./Confirm.js";
 import Deleting from "./Deleting.js"
 import useVisualMode from "hooks/useVisualMode";
 
@@ -17,6 +18,7 @@ export default function Appointment(props) {
   const CREATE = "CREATE"
   const SAVING = "SAVING"
   const DELETING = "DELETING"
+  const CONFIRM = "CONFIRM"
 
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY)
 
@@ -24,8 +26,9 @@ export default function Appointment(props) {
   const onCancel = () => back();
   const onStatus = () => transition(SAVING)
   const onSave = () => transition(SHOW)
-  const onDeleting = () => transition(DELETING)
+  const onDeleting = () => transition(CONFIRM)
   const onEmpty = () => transition(EMPTY)
+  const onConfirm = () => transition(DELETING)
 
   function save(name, interviewer) {
     onStatus()
@@ -35,7 +38,6 @@ export default function Appointment(props) {
     };
     props.bookInterview(id, interview)
     .then((response) => {
-      // console.log(response);
       onSave()
     }, (error) => {
       // console.log(error);
@@ -43,33 +45,34 @@ export default function Appointment(props) {
   }
 
   function cancel() {
-   
     onDeleting();
-  
+  }
+
+  function confirmedCancel() {
+    onConfirm()
     props.cancelInterview(id)
       .then((response) => {
-        console.log(response)
         onEmpty();
       }, (error) => {
-        console.log(error)
+        // console.log(error)
       })
   }
 
 
-  
   return (
     <>
       <article className="Appointment">
         <Header time={time} />
         {mode === EMPTY && <Empty onAdd={onAdd} />}
         {mode === SAVING && <Saving message="Saving" />}
+        {mode === CONFIRM && <Confirm message="Delete the appointment?" onConfirm={confirmedCancel} onCancel={onCancel} />}
         {mode === DELETING && <Deleting message="Deleting" />}
         {mode === SHOW && (
           <Show
             id={props.id}
             student={props.interview.student}
             interviewer={props.interview.interviewer}
-            onDeleting={cancel}
+            onDelete={cancel}
           />
         )}
         {mode === CREATE && (

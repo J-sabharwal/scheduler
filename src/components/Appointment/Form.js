@@ -4,7 +4,7 @@ import InterviewerList from "components/InterviewerList"
 
 export default function Form(props) {
 
-  const { onSave, onCancel, interviewers } = props;
+  const { onSave, onCancel, onDeleting, interviewers } = props;
 
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
