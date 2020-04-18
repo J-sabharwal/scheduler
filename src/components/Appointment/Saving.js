@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Status(props) {
+export default function Saving(props) {
 
   return (
     <main className="appointment__card appointment__card--status">

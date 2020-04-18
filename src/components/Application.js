@@ -9,14 +9,12 @@ import getAppointmentsForDay, { getInterview, getInterviewersForDay} from "../he
 
 export default function Application(props) {
   const setDay = day => setState({ ...state, day });
-  // const setDays = days => setState(prev => ({ ...prev, days }))
-  // const [daysData, setDays] = useState([])
-  // const [day, setDay] = useState("")
   const [state, setState] = useState({
     day: "Monday",
     days: [],
     appointments: {}
   })
+   console.log(state)
   
   useEffect(() => {
 
@@ -29,15 +27,53 @@ export default function Application(props) {
 
     Promise.all([promiseDay, promiseAppt, promiseInterviewers])
       .then((all) =>  {
-        console.log({  days: all[0].data, appointnments: all[1].data, interviewers: all[2].data   })
-        setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data  }));
+        // console.log({  days: all[0].data, appointnments: all[1].data, interviewers: all[2].data   })
+        setState(prev => ({
+          ...prev, 
+          days: all[0].data, 
+          appointments: all[1].data, 
+          interviewers: all[2].data  
+        }));
       })
     }, []);
+
+    let bookInterview = function(id, interview) {
+      // console.log(id, interview);
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview }
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+      setState({
+        ...state,
+        appointments
+      });
+      return axios.put(`http://localhost:8000/api/appointments/${id}`, {interview})
+      
+    }
+    console.log(state)
+
+    let cancelInterview = function(id) {
+      const appointment = {
+        ...state.appointment[id],
+        interview: null
+      };
+      const appointments = {
+        ...state.appoointments,
+        [id]: appointment 
+      };
+      // setState({
+      //   ...state,
+      //   appointments
+      // });
+      // return axios.delete(`http://localhost:8000/api/appointments/${id}`)
+    }
   
-    const appointments = getAppointmentsForDay(state, state.day)
-    const interviewers = getInterviewersForDay(state, state.day)
-    console.log(interviewers)
-    
+    const appointments = getAppointmentsForDay(state, state.day);
+    const interviewers = getInterviewersForDay(state, state.day);
     const appointmentSlot =  appointments.map((timeslot) => {
       const interview = getInterview(state, timeslot.interview);
       
@@ -48,10 +84,10 @@ export default function Application(props) {
         time={timeslot.time}
         interview={interview}
         interviewers={interviewers}
+        bookInterview={bookInterview}
       />
       );
   });
-
 
   return (
     <main className="layout">
