@@ -25,6 +25,7 @@ export default function Appointment(props) {
   const onStatus = () => transition(SAVING)
   const onSave = () => transition(SHOW)
   const onDeleting = () => transition(DELETING)
+  const onEmpty = () => transition(EMPTY)
 
   function save(name, interviewer) {
     onStatus()
@@ -41,15 +42,14 @@ export default function Appointment(props) {
     });
   }
 
-  function cancel(name, interviewer) {
+  function cancel() {
+   
     onDeleting();
-    const interview = {
-      student: name,
-      interviewer,
-    };
+  
     props.cancelInterview(id)
       .then((response) => {
         console.log(response)
+        onEmpty();
       }, (error) => {
         console.log(error)
       })
@@ -66,12 +66,14 @@ export default function Appointment(props) {
         {mode === DELETING && <Deleting message="Deleting" />}
         {mode === SHOW && (
           <Show
+            id={props.id}
             student={props.interview.student}
             interviewer={props.interview.interviewer}
+            onDeleting={cancel}
           />
         )}
         {mode === CREATE && (
-          <Form interviewers={interviewers} onCancel={onCancel} onSave={save} onDeleting={cancel} />
+          <Form interviewers={interviewers} onCancel={onCancel} onSave={save}  />
         )}
       </article>
     </>
