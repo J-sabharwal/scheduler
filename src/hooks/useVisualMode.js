@@ -5,7 +5,7 @@ export default function useVisualMode(initial) {
   const [mode, setMode] = useState(initial);
   
   function transition(newMode, replace = false) {
-    console.log(newMode)
+ 
     if (replace) {
       history.splice(-1, 1, newMode)
       setMode(newMode)
