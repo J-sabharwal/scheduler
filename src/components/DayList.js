@@ -1,6 +1,5 @@
 import React from "react";
 import DayListItem from "components/DayListItem";
-const classNames = require('classnames')
 
 export default function DayList(props) {
 

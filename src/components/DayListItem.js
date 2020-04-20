@@ -4,7 +4,7 @@ const classNames = require('classnames')
 
 export default function DayListItem(props) {
 
-  const { name, spots, selected, setDay } = props;   
+  const { spots } = props;   
 
   const formatSpots = numSpots => {     
     if (numSpots === 0) {       

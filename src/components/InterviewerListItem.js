@@ -4,9 +4,6 @@ const classNames = require('classnames')
 
 export default function InterviewerListItem(props) {
 
-  const { id, name, avatar, selected, setInterviewer } = props;   
-
-
   let intClass = classNames({
     "interviewers__item--selected": props.selected,
     "interviewers__item-image": props.avatar,

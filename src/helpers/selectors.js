@@ -1,7 +1,7 @@
 export default function getAppointmentsForDay(state, day) {
   let apptArray = [];
 
-  let appointments = state.days.filter(item => {
+  state.days.filter(item => {
     
     if (item.name === day) {
       
@@ -19,7 +19,7 @@ export default function getAppointmentsForDay(state, day) {
 export function getInterviewersForDay(state, day) {
   
   let intArray = [];
-  let days = state.days.filter(item => {
+  state.days.filter(item => {
 
     if (item.name === day) {
 
