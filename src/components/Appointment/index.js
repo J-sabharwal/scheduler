@@ -47,11 +47,11 @@ export default function Appointment(props) {
       interviewer,
     };
     props.bookInterview(id, interview, createNew)
-    .then((response) => {
-      onSave()
-    }, (error) => {
-      onErrSave();
-    });
+      .then((response) => {
+        onSave()
+      }, (error) => {
+        onErrSave();
+      });
   }
 
   function cancel() {
@@ -71,7 +71,7 @@ export default function Appointment(props) {
 
   return (
     <>
-      <article className="Appointment">
+      <article className="Appointment" data-testid="appointment">
         <Header time={time} />
         {mode === EMPTY && <Empty onAdd={onAdd} />}
         {mode === SAVING && <Saving message="Saving" />}
