@@ -18,13 +18,6 @@ import Appointment from "components/Appointment/index";
 /*
   A test that renders a React Component
 */
-describe("Application", () => {
-  it("renders empty function", () => {});
-
-  it("renders without crashing", () => {
-    render(<Application />);
-  });
-});
 
 describe("Appointment", () => {
   it("renders empty function", () => {});
