@@ -8,35 +8,33 @@ import Saving from "./Saving.js";
 import Confirm from "./Confirm.js";
 import Error from "./Error.js";
 import ErrorSave from "./ErrorSave.js";
-import Deleting from "./Deleting.js"
+import Deleting from "./Deleting.js";
 import useVisualMode from "hooks/useVisualMode";
 
 export default function Appointment(props) {
   
-  const { id, interview, time, interviewers} = props
-  // console.log(props)
+  const { id, interview, time, interviewers, key} = props
+  const EDIT = "EDIT";
   const SHOW = "SHOW";
   const EMPTY = "EMPTY";
-  const CREATE = "CREATE"
-  const SAVING = "SAVING"
-  const DELETING = "DELETING"
-  const CONFIRM = "CONFIRM"
-  const EDIT = "EDIT"
-  const ERROR_DELETE = "ERROR_DELETE"
-  const ERROR_SAVE = "ERROR_SAVE"
+  const CREATE = "CREATE";
+  const SAVING = "SAVING";
+  const CONFIRM = "CONFIRM";
+  const DELETING = "DELETING";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
 
-  const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY)
-
-  const onAdd = () => transition(CREATE);
+  const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
   const onCancel = () => back();
-  const onStatus = () => transition(SAVING)
-  const onSave = () => transition(SHOW)
-  const onDeleting = () => transition(CONFIRM)
-  const onEmpty = () => transition(EMPTY)
-  const onConfirm = () => transition(DELETING, true)
-  const onEdit = () => transition(EDIT)
-  const onError = () => transition(ERROR_DELETE, true)
-  const onErrSave = () => transition(ERROR_SAVE, true)
+  const onEdit = () => transition(EDIT);
+  const onSave = () => transition(SHOW);
+  const onAdd = () => transition(CREATE);
+  const onEmpty = () => transition(EMPTY);
+  const onStatus = () => transition(SAVING);
+  const onDeleting = () => transition(CONFIRM);
+  const onConfirm = () => transition(DELETING, true);
+  const onError = () => transition(ERROR_DELETE, true);
+  const onErrSave = () => transition(ERROR_SAVE, true);
   
   
 
@@ -46,6 +44,7 @@ export default function Appointment(props) {
       student: name,
       interviewer,
     };
+
     props.bookInterview(id, interview, createNew)
       .then((response) => {
         onSave()
@@ -56,7 +55,7 @@ export default function Appointment(props) {
 
   function cancel() {
     onDeleting();
-  }
+  };
 
   function confirmedCancel() {
     onConfirm()
@@ -65,17 +64,22 @@ export default function Appointment(props) {
         onEmpty();
       }, (error) => {
         onError()
-      })
-  }
-
+      });
+  };
 
   return (
     <>
       <article className="Appointment" data-testid="appointment">
         <Header time={time} />
-        {mode === EMPTY && <Empty onAdd={onAdd} />}
+        {mode === EMPTY && time !== "5pm" && <Empty onAdd={onAdd} />}
         {mode === SAVING && <Saving message="Saving" />}
-        {mode === CONFIRM && <Confirm message="Delete the appointment?" onConfirm={confirmedCancel} onCancel={onCancel} />}
+        {mode === CONFIRM && (
+          <Confirm 
+            message="Delete the appointment?" 
+            onConfirm={confirmedCancel} 
+            onCancel={onCancel} 
+          />
+        )}
         {mode === DELETING && <Deleting message="Deleting" />}
         {mode === SHOW && (
           <Show
@@ -111,4 +115,4 @@ export default function Appointment(props) {
       </article>
     </>
   )
-}
+};

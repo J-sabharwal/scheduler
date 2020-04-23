@@ -10,17 +10,16 @@ export default function InterviewerList(props) {
     setInterviewer: PropTypes.func.isRequired
   };
 
-const ints = props["interviewers"].map(int => {
+  const ints = props["interviewers"].map(int => {
  
- return <InterviewerListItem 
-    key={int.id} 
-    name={int.name} 
-    avatar={int.avatar}
-    selected={int.id === props.interviewer}
-    setInterviewer={() => props.setInterviewer(int.id)}  
-  />
-})
-
+    return <InterviewerListItem 
+        key={int.id} 
+        name={int.name} 
+        avatar={int.avatar}
+        selected={int.id === props.interviewer}
+        setInterviewer={() => props.setInterviewer(int.id)}  
+      />
+  });
 
   return (
   <section className="interviewers">
@@ -30,4 +29,4 @@ const ints = props["interviewers"].map(int => {
     </ul>
   </section>
   );
-}
+};

@@ -12,4 +12,4 @@ export default function Deleting(props) {
       <h1 className="text--semi-bold">{props.message}</h1>
     </main>
   );
-}
+};

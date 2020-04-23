@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function useApplicationData() {
@@ -43,7 +43,7 @@ export default function useApplicationData() {
             }
         })  
       })
-    } 
+    };
 
     const appointment = {...state.appointments[id], interview: { ...interview }};
     const appointments = {...state.appointments, [id]: appointment};
@@ -64,15 +64,14 @@ export default function useApplicationData() {
           return day.spots++;
         }
       })  
-    })
+    });
     
     setState({...state, spots});
-    // console.log(state)
     
     return axios.delete(`http://localhost:8000/api/appointments/${id}`);
-  }
+  };
   
   return { state, setDay, bookInterview, cancelInterview };
-}
+};
 
 

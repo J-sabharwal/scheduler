@@ -1,6 +1,6 @@
 import React from "react";
 import "components/Button.scss";
-const classNames = require('classnames')
+const classNames = require('classnames');
 
 export default function Button(props) {
 
@@ -19,11 +19,4 @@ export default function Button(props) {
          {props.children}
       </button>
    );
-}  
-
-
-/* 
-- classNames library was used to create a olist of classes for the button element
-
-- actions addon was used to test the event handler
-*/
+}; 

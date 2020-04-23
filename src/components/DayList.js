@@ -12,12 +12,11 @@ const days = props.days.map(day => {
     selected={day.name === props.day}
     setDay={props.setDay}  
   />
-})
-
+});
 
   return (
     <ul >
       {days}
     </ul>
   );
-}
+};

@@ -1,9 +1,7 @@
 import React from "react";
 import axios from "axios";
-import { getByText, getAllByText, getByDisplayValue } from "@testing-library/react"
-import { render, cleanup } from "@testing-library/react";
 import Application from "components/Application";
-import { waitForElement, fireEvent, prettyDOM, getAllByTestId, queryByAltText, getByAltText, getByPlaceholderText, queryByText } from "@testing-library/react"
+import { waitForElement, fireEvent, prettyDOM, getAllByTestId, queryByAltText, getByAltText, getByPlaceholderText, queryByText, getByText, getAllByText, getByDisplayValue, render, cleanup } from "@testing-library/react";
 import Appointment from "components/Appointment";
 
 afterEach(cleanup);
