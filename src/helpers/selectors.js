@@ -1,11 +1,11 @@
 export default function getAppointmentsForDay(state, day) {
   let apptArray = [];
 
-  state.days.filter(item => {
+  state.days.filter(eachDay => {
     
-    if (item.name === day) {
+    if (eachDay.name === day) {
       
-      apptArray = item.appointments.map(appt => {
+      apptArray = eachDay.appointments.map(appt => {
        
         let obj = state.appointments[appt];
         return obj;       
